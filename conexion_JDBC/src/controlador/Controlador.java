@@ -40,7 +40,11 @@ public class Controlador {
 	 * recogido mediante el menú.
 	 */
 	public Coche addCoche(Coche c) {
-		
+		//Verificación para marca y modelo != null.
+		if(c.getMarca() == null || c.getMarca().trim().isEmpty() || c.getModelo() == null || c.getModelo().trim().isEmpty()) {
+			
+			return null;
+		}
 		Coche cocheNuevo = daoCar.alta(c);
 		return cocheNuevo;
 	}

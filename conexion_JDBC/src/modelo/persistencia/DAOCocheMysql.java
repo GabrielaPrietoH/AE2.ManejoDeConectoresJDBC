@@ -25,8 +25,8 @@ public class DAOCocheMysql implements DAOCoche {
 	}
 		
 	/**
-	 * 
-	 * @return
+	 * Método para abrir la conexión con la BBDD
+	 * @return boolean dependiendo de si se ha logrado establecer o no.
 	 */
 	public boolean abrirConexion() {
 		
@@ -58,8 +58,8 @@ public class DAOCocheMysql implements DAOCoche {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Método para cerrar la conexión con la BBDD
+	 * @return boolean dependiendo de si se ha logrado cerrar o no.
 	 */
 	public boolean cerrarConexion(){
 		try {
@@ -73,7 +73,10 @@ public class DAOCocheMysql implements DAOCoche {
 
 	
 	
-	
+	/**
+	 * Método para dar de alta un coche
+	 * @return un objeto de tipo coche.
+	 */
 	@Override
 	public Coche alta(Coche c) {
 		if(!abrirConexion()) {

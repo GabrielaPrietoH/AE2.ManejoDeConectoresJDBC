@@ -39,12 +39,31 @@ public class MainMenu {
 					System.out.println("Has elegido añadir un nuevo coche.");
 					
 					Coche c = new Coche();
-					System.out.println("Introduce la marca del coche: ");
-					String marca = leer.nextLine();
-					c.setMarca(marca);
-					System.out.println("Introduce el modelo del coche: ");
-					String modelo = leer.nextLine();
-					c.setModelo(modelo);
+					
+					//Verificación para marca y modelo != null.
+					String marca = "";
+					while(marca.trim().isEmpty()) {
+						System.out.println("Introduce la marca del coche: ");
+						marca = leer.nextLine().trim();
+						if(marca.isEmpty()) {
+							System.out.println("La marca no puede estar vacía.");
+						}else {
+							c.setMarca(marca);
+						}
+					}
+					 
+					String modelo = "";
+					while(modelo.trim().isEmpty()) {
+						System.out.println("Introduce el modelo del coche: ");
+						modelo = leer.nextLine();
+						if(modelo.isEmpty()) {
+							System.out.println("El modelo no puede estar vacío.");
+						}else {
+							c.setModelo(modelo);
+						}
+					}
+					
+					
 					System.out.println("Introduce un año de fabricación para el coche: ");
 					int año = leer.nextInt();
 					leer.nextLine();
