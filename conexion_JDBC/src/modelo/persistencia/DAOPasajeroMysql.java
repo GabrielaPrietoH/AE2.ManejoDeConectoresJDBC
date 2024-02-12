@@ -173,7 +173,7 @@ public class DAOPasajeroMysql implements DAOPasajeros{
 				p.setNombre(rs.getString(2));
 				p.setEdad(rs.getInt(3));
 				p.setPeso(rs.getDouble(4));
-				//Hará falta el param idCOche?
+				
 				
 			}
 		} catch (SQLException e) {
@@ -285,62 +285,51 @@ public class DAOPasajeroMysql implements DAOPasajeros{
 	}
 	
 	
-	
-	//método para listar los pasajeros de un coche
+	//Método para listar los pasajeros del coche.
 	@Override
 	public List<Pasajeros> listPasajerosEnCoche(int idCoche) {
-		if(!abrirConexion()){
-			return null;
-		}	
-		List<Pasajeros> listaPasajeros = new ArrayList<>();
-		
-		String query = "select ID,NOMBRE,EDAD,PESO from pasajeros WHERE coche_id=?";
-		try (PreparedStatement ps = conexion.prepareStatement(query)){
-						
-			ps.setInt(1, idCoche);	
-			
-			try(ResultSet rs = ps.executeQuery()){
-				
-				boolean tienePasajeros = false;
-				while(rs.next()){
-					
-					tienePasajeros = true;
-					
-					Pasajeros p = new Pasajeros();
-					
-					p.setId(rs.getInt(1));
-					p.setNombre(rs.getString(2));
-					p.setEdad(rs.getInt(3));
-					p.setPeso(rs.getDouble(4));
-					
-					listaPasajeros.add(p);
-				}
-				
-				if(!tienePasajeros) {
-					System.out.println("El coche seleccionado no tiene pasajeros.");
-					return null;
-				}
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("listar -> error al obtener los "
-					+ "pasajeros");
-			e.printStackTrace();
-			return null;
-		} finally {
-			cerrarConexion();
-		}
-		
-		
-		return listaPasajeros;
+	    if (!abrirConexion()) {
+	        return null;
+	    }
+	    List<Pasajeros> listaPasajeros = new ArrayList<>();
+
+	    String query = "SELECT p.ID, p.NOMBRE, p.EDAD, p.PESO, p.COCHE_ID, c.MARCA, c.MODELO, c.AÑO, c.KILOMETROS FROM pasajeros p INNER JOIN coche c ON p.COCHE_ID = c.ID WHERE c.ID = ?";
+	    try (PreparedStatement ps = conexion.prepareStatement(query)) {
+	        ps.setInt(1, idCoche);
+
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                Pasajeros p = new Pasajeros();
+	                p.setId(rs.getInt("ID"));
+	                p.setNombre(rs.getString("NOMBRE"));
+	                p.setEdad(rs.getInt("EDAD"));
+	                p.setPeso(rs.getDouble("PESO"));
+
+	                // Construcción del objeto Coche asociado
+	                Coche c = new Coche();
+	                c.setId(rs.getInt("COCHE_ID"));
+	                c.setMarca(rs.getString("MARCA"));
+	                c.setModelo(rs.getString("MODELO"));
+	                c.setAñoFabricacion(rs.getInt("AÑO"));
+	                c.setKm(rs.getDouble("KILOMETROS"));
+
+	                p.setCoche(c);
+
+	                listaPasajeros.add(p);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("listar -> error al obtener los pasajeros");
+	        e.printStackTrace();
+	        return null;
+	    } finally {
+	        cerrarConexion();
+	    }
+
+	    return listaPasajeros;
 	}
 
-	
-	
-	
-	
-	
-	
-	
+
+		
 
 }

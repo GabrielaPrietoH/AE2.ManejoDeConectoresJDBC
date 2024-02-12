@@ -14,10 +14,19 @@ import modelo.entidad.Coche;
 import modelo.entidad.LecturaProperties;
 import modelo.persistencia.interfaces.DAOCoche;
 
+/**
+ * Implementación de la clase DAOCoche para el acceso a una base de datos SQL.
+ * Esta clase proporciona la funcionalidad necesaria para interactuar con la tabla 'coche'
+ * en la base de datos, permitiendo realizar operaciones CRUD sobre los datos de coches.
+ */
 public class DAOCocheMysql implements DAOCoche {
 	private Connection conexion;
 	private LecturaProperties propiedades;
 	
+	  /**
+     * Constructor que inicializa la conexión a la base de datos utilizando propiedades
+     * especificadas en un archivo de configuración.
+     */
 	public DAOCocheMysql() {
 		propiedades = new LecturaProperties();
 		propiedades.inicializar();
@@ -74,7 +83,8 @@ public class DAOCocheMysql implements DAOCoche {
 	
 	
 	/**
-	 * Método para dar de alta un coche
+	 * Método para dar de alta un coche en la BBDD.
+	 * @param c objeto coche a añadir.
 	 * @return un objeto de tipo coche.
 	 */
 	@Override
@@ -262,10 +272,5 @@ public class DAOCocheMysql implements DAOCoche {
 		
 		return listaCoches;
 	}
-
-	
-	
-	
-
 	
 }
